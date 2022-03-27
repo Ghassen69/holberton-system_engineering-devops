@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# The verification of the subdomains
+subdomain='www lb-01 web-01 web-02'
+if [ $# -eq 1 ]
+then
+	for i in $subdomain
+	do echo -n "The subdomain $i"
+	dig "$i.$1" | grep -A 1 'ANSWER SECTION' | tail -n 1 | awk '{print " is a " $4 " record and points to "$5}'
+	done
+elif [ $# -eq 2 ]
+then
+	echo -n "The subdomain $2"
+	dig "$2.$1" | grep -A 1 'ANSWER SECTION' | tail -n 1 | awk '{print " is a " $4 " record and points to "$5}'
+fi
